@@ -25,5 +25,8 @@ jobs:
     - name: Set up TiDB
       run: nohup ~/.tiup/bin/tiup playground &
       
+    - name: Set MySQL Client
+      run: sudo apt install mysql-client -y
+      
     - name: Test
-      run: make test
+      run: mysql --help
