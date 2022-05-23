@@ -18,15 +18,15 @@ jobs:
       uses: actions/setup-go@v3
       with:
         go-version: 1.18
-        
-    - name: Set up TiUP
-      run: curl --proto '=https' --tlsv1.2 -sSf https://tiup-mirrors.pingcap.com/install.sh | sh
-      
-    - name: Set up TiDB
-      run: nohup ~/.tiup/bin/tiup playground &
-      
+    
+    - name: Starter Docker Test
+      uses: cubetiq/starter-docker-actions@main
+      with:
+        shell: sh
+        run: docker run -p 127.0.0.1:4000:4000 pingcap/tidb:v5.1.0
+          
     - name: Set MySQL Client
       run: sudo apt install mysql-client -y
       
     - name: Test
-      run: mysql --help
+      run: mysql --host 127.0.0.1 --port 4000 -u root -e "SELECT VERSION()"
